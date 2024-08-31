@@ -25,6 +25,8 @@ phases:
       - echo Pushing Docker image to Docker Hub...
       - docker tag arithmetic-hello-world palak21/arithmetic-hello-world
       - docker push palak21/arithmetic-hello-world
+      - echo "Cleaning up..."
+      - docker logout
 
 artifacts:
   files:

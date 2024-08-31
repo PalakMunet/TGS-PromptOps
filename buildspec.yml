@@ -11,10 +11,9 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Docker Hub...
-      - aws ssm get-parameters --name docker_password --with-decryption --query 'Parameters[0].Value' --output text > docker_password.txt
+      - aws ssm get-parameter --name docker_password --with-decryption --query 'Parameters[0].Value' --output text > docker_password.txt
       - docker login -u palak21 -p $(cat docker_password.txt)
-      - echo Pulling Docker image from Docker Hub...
-      - docker pull palak21/arithmetic-hello-world
+
   build:
     commands:
       - echo Building Docker image...

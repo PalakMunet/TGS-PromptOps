@@ -11,8 +11,10 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Docker Hub...
+      - docker logout
       - aws ssm get-parameter --name docker_password --with-decryption --query 'Parameters[0].Value' --output text > docker_password.txt
-      - docker login -u palak21 -p $(cat docker_password.txt)
+      - aws ssm get-parameter --name docker_username --with-decryption --query 'Parameters[0].Value' --output text > docker_username.txt
+      - docker login -u $(cat docker_username.txt) -p $(cat docker_password.txt)
 
   build:
     commands:

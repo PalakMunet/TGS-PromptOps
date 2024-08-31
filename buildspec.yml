@@ -1,0 +1,25 @@
+version: 0.2.0
+
+phases:
+  install:
+    runtime-versions:
+      docker: 20
+    commands:
+      - echo Logging in to Docker Hub...
+      - aws ssm get-parameters --name docker_password --with-decryption --query 'Parameters[0].Value' --output text > docker_password.txt
+      - docker login -u palak21 -p $(cat docker_password.txt)
+
+  build:
+    commands:
+      - echo Building Docker image...
+      - docker build -t arithmetic-hello-world .
+
+  post_build:
+    commands:
+      - echo Pushing Docker image to Docker Hub...
+      - docker tag arithmetic-hello-world palak21/arithmetic-hello-world
+      - docker push palak21/arithmetic-hello-world
+
+artifacts:
+  files:
+    - '**/*'
